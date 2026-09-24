@@ -745,7 +745,7 @@ tr.compare-best td{background:var(--green-soft);}
     <p>Con eso claro, toca ver con qué contáis. Primero, lo que tenéis ahorrado — la hoja de <strong>Ahorros</strong>, con el "colchón" que no queréis tocar aparte del resto. Y justo al lado, lo que ya debéis hoy — un coche, una tarjeta — porque eso también le importa al banco, y a veces vale la pena simular qué pasaría si cancelarais una deuda con parte de ese ahorro: por eso <strong>Deudas actuales</strong> te deja crear más de un escenario, incluida la posibilidad de una "deuda cero".</p>
     <p>Después decidís qué viviendas estáis valorando: en <strong>Vivienda objetivo</strong> puedes guardar Casa 1, Casa 2, Casa 3… con su provincia, estado, tipo y rango de precio. No existe una vivienda principal o predeterminada: cada escenario de la Hoja 05 se vincula a la vivienda que le corresponde. Si solo tienes una vivienda guardada, una hipoteca nueva se vincula automáticamente a ella; si tienes varias, eliges la vivienda al crear y completar el escenario.</p>
     <p>Con esos bloques ya montados, empieza la parte de números grandes. En <strong>Hipoteca</strong> cada escenario se vincula a una vivienda concreta de la Hoja 04 y añade el precio del escenario, el porcentaje que financiáis, el interés y los años. Así puedes tener varios escenarios para distintas casas sin mezclar sus datos. Ahí también entran los productos que el banco os puede pedir a cambio de un interés más bajo.</p>
-    <p>La siguiente parada son los <strong>Gastos de compra</strong>. Cada escenario de gastos se vincula a un escenario de hipoteca y, por esa vía, hereda la vivienda correspondiente: provincia, segunda mano o nueva construcción y precio del escenario. Si con el ahorro no llega para cubrir la entrada y esos gastos, en <strong>Préstamo personal</strong> cada escenario también queda vinculado a la hipoteca de referencia para que sepas exactamente para qué vivienda y operación se calculó.</p>
+    <p>La siguiente parada son los <strong>Gastos de compra</strong>. Cada escenario de gastos se vincula a un escenario de hipoteca y, por esa vía, hereda la vivienda correspondiente: provincia, segunda mano o nueva construcción y precio del escenario. Puedes añadir los honorarios de la inmobiliaria si aplican, y si sabes que te corresponde algún descuento — por ejemplo un ITP reducido por primera vivienda, familia numerosa o VPO —, un campo aparte lo resta del total; Hipoclaro no calcula si tienes derecho a él, solo aplica el importe o porcentaje que tú indiques. Si con el ahorro no llega para cubrir la entrada y esos gastos, en <strong>Préstamo personal</strong> cada escenario también queda vinculado a la hipoteca de referencia para que sepas exactamente para qué vivienda y operación se calculó.</p>
     <p>Todo esto se junta en el <strong>Resumen</strong> siguiendo la misma cadena: Vivienda (04) → Hipoteca (05) → Gastos (06) y Préstamo personal (07), además del escenario de deudas elegido. Ahí ves cuánto ahorro queda, cuánto dinero falta o sobra para ejecutar la compra, cuánto queda libre al mes, los intereses y dos lecturas del endeudamiento: una con tus deudas actuales + la hipoteca y otra añadiendo también el préstamo personal del escenario. Desde esa misma hoja puedes usar <strong>Exportar escenario</strong> para generar una ficha visual de la operación seleccionada y guardarla como PDF o imprimirla, sin incluir todo tu dosier ni tus documentos adjuntos.</p>
     <p>Cuando llega el momento de hablar con bancos o intermediarios de verdad, <strong>Asesores/Brokers</strong> te deja llevar varios en paralelo — sin comprometerte con ninguno antes de tiempo — con un checklist de qué documentación le falta a cada uno y un espacio para guardar esos documentos.</p>
     <p>Para que el "disponible libre al mes" del Resumen sea real y no optimista, <strong>Otros gastos fijos</strong> recoge lo que ya gastáis viviendo hoy — suministros, seguros, lo de siempre — aparte de cualquier deuda o cuota.</p>
@@ -1183,7 +1183,7 @@ function defaultState(){
     hipoteca: { escenarios: [], seleccionado: null },
     personal: { escenarios: [], seleccionado: null, gastoEscenarioSeleccionado: null },
     gastos: { seleccionado: null, provincias: [
-        {id:uid(), nombre:'Escenario 01', provincia:'', hipotecaEscenarioId:'', valorReferenciaCatastro:'', itpPct:'', ivaAjdPct:'', notaria:'', registro:'', gestoria:'', tasacion:'', asesorFinanciero:'', honorariosTipo:'no_aplica', honorariosPct:'', honorariosImporteFijo:'', honorariosIva:'', honorariosIncluyeIva:'no'}
+        {id:uid(), nombre:'Escenario 01', provincia:'', hipotecaEscenarioId:'', valorReferenciaCatastro:'', itpPct:'', ivaAjdPct:'', notaria:'', registro:'', gestoria:'', tasacion:'', asesorFinanciero:'', honorariosTipo:'no_aplica', honorariosPct:'', honorariosImporteFijo:'', honorariosIva:'', honorariosIncluyeIva:'no', descuentoTipo:'no_aplica', descuentoPct:'', descuentoImporteFijo:'', descuentoMotivo:''}
       ]},
     brokers: [],
     documentos: [],
@@ -1424,7 +1424,7 @@ function normalizeState(){
     }
     if(!Array.isArray(e.vinculaciones)) e.vinculaciones = [];
   });
-  (state.gastos.provincias||[]).forEach(p=>backfillDefaults(p, {nombre:'',provincia:'',hipotecaEscenarioId:'',valorReferenciaCatastro:'',itpPct:'',ivaAjdPct:'',notaria:'',registro:'',gestoria:'',tasacion:'',asesorFinanciero:'',expanded:true,honorariosTipo:'no_aplica',honorariosPct:'',honorariosImporteFijo:'',honorariosIva:'',honorariosIncluyeIva:'no'}));
+  (state.gastos.provincias||[]).forEach(p=>backfillDefaults(p, {nombre:'',provincia:'',hipotecaEscenarioId:'',valorReferenciaCatastro:'',itpPct:'',ivaAjdPct:'',notaria:'',registro:'',gestoria:'',tasacion:'',asesorFinanciero:'',expanded:true,honorariosTipo:'no_aplica',honorariosPct:'',honorariosImporteFijo:'',honorariosIva:'',honorariosIncluyeIva:'no',descuentoTipo:'no_aplica',descuentoPct:'',descuentoImporteFijo:'',descuentoMotivo:''}));
   (state.personal.escenarios||[]).forEach(e=>{
     backfillDefaults(e, {nombre:'',hipotecaEscenarioId:'',importe:'',tin:'',comisionApertura:'',tae:'',plazoMeses:'60',proposito:'',notas:'',expanded:true,incluirPostCompra:false});
     if(!Array.isArray(e.gastosPostCompra)) e.gastosPostCompra = [];
@@ -2298,7 +2298,7 @@ function crearEscenarioExpress(){
   state.gastos.provincias.push({
     id: gastoId, nombre:'Escenario express', provincia:'', hipotecaEscenarioId: hipId,
     valorReferenciaCatastro:'', itpPct:'', ivaAjdPct:'', notaria:'', registro:'', gestoria:'', tasacion:'', asesorFinanciero:'',
-    honorariosTipo:'no_aplica', honorariosPct:'', honorariosImporteFijo:'', honorariosIva:'', honorariosIncluyeIva:'no', expanded:true
+    honorariosTipo:'no_aplica', honorariosPct:'', honorariosImporteFijo:'', honorariosIva:'', honorariosIncluyeIva:'no', descuentoTipo:'no_aplica', descuentoPct:'', descuentoImporteFijo:'', descuentoMotivo:'', expanded:true
   });
   let personalId = null;
   if(totalPersonalConExtra>0){
@@ -3982,7 +3982,7 @@ function renderComparativaPersonal(){
 /* ---------- 06 GASTOS DE COMPRA ---------- */
 function addProvincia(){
   const hipId = state.hipoteca.seleccionado || (state.hipoteca.escenarios[0] && state.hipoteca.escenarios[0].id) || '';
-  state.gastos.provincias.push({id:uid(), nombre:'Nuevo escenario', provincia:'', hipotecaEscenarioId:hipId, valorReferenciaCatastro:'', itpPct:'', ivaAjdPct:'', notaria:'', registro:'', gestoria:'', tasacion:'', asesorFinanciero:'', honorariosTipo:'no_aplica', honorariosPct:'', honorariosImporteFijo:'', honorariosIva:'', honorariosIncluyeIva:'no'});
+  state.gastos.provincias.push({id:uid(), nombre:'Nuevo escenario', provincia:'', hipotecaEscenarioId:hipId, valorReferenciaCatastro:'', itpPct:'', ivaAjdPct:'', notaria:'', registro:'', gestoria:'', tasacion:'', asesorFinanciero:'', honorariosTipo:'no_aplica', honorariosPct:'', honorariosImporteFijo:'', honorariosIva:'', honorariosIncluyeIva:'no', descuentoTipo:'no_aplica', descuentoPct:'', descuentoImporteFijo:'', descuentoMotivo:''});
   saveState(); render();
 }
 function duplicarEscenarioGasto(id){
@@ -4045,11 +4045,23 @@ function calcHonorariosInmobiliaria(p){
   const iva = base * num(p.honorariosIva)/100;
   return { base, iva, total: base+iva };
 }
-function calcGastoCompra(p){
+function calcDescuentoGastos(p, totalBruto){
+  if(!p.descuentoTipo || p.descuentoTipo==='no_aplica') return 0;
+  if(p.descuentoTipo==='porcentaje') return totalBruto * num(p.descuentoPct)/100;
+  if(p.descuentoTipo==='fijo') return num(p.descuentoImporteFijo);
+  return 0;
+}
+function calcGastoCompraBruto(p){
   const baseImpuestos = baseImpuestosParaProvincia(p);
   const impuesto = baseImpuestos * porcentajeImpuestoCompra(p)/100;
   const honorarios = calcHonorariosInmobiliaria(p);
   return impuesto + num(p.notaria) + num(p.registro) + num(p.gestoria) + num(p.tasacion) + num(p.asesorFinanciero) + honorarios.total;
+}
+function calcGastoCompra(p){
+  const totalBruto = calcGastoCompraBruto(p);
+  const descuento = calcDescuentoGastos(p, totalBruto);
+  // Nunca negativo: un descuento mal introducido (p.ej. mayor que el gasto real) no debe producir un "gasto total" absurdo.
+  return Math.max(0, totalBruto - descuento);
 }
 function opcionesEscenariosHipoteca(selectedId){
   return state.hipoteca.escenarios.map(e=>{
@@ -4194,11 +4206,34 @@ function renderGastos(){
         })()}
 
         <div class="hr"></div>
+        <div class="section-flag"><strong style="font-size:13.5px;">Descuento aplicado</strong> <span style="font-size:11px;color:var(--ink-faint);">(opcional — solo si sabes que te corresponde uno)</span></div>
+        <div class="grid4" style="margin-top:10px;">
+          <div class="field">
+            <label>Tipo de descuento</label>
+            <select data-path="gastos.provincias.${i}.descuentoTipo" data-rerender="true">
+              <option value="no_aplica" ${(!p.descuentoTipo||p.descuentoTipo==='no_aplica')?'selected':''}>No aplica</option>
+              <option value="porcentaje" ${p.descuentoTipo==='porcentaje'?'selected':''}>Porcentaje sobre el gasto total</option>
+              <option value="fijo" ${p.descuentoTipo==='fijo'?'selected':''}>Importe fijo</option>
+            </select>
+          </div>
+          ${p.descuentoTipo==='porcentaje' ? `
+          <div class="field"><label>Descuento (%)</label><input type="text" inputmode="decimal" data-numeric="true" data-path="gastos.provincias.${i}.descuentoPct" value="${p.descuentoPct}" data-rerender="true">${avisoImporteNegativo(p.descuentoPct,'El porcentaje')}</div>
+          ` : ''}
+          ${p.descuentoTipo==='fijo' ? `
+          <div class="field"><label>Importe del descuento (€)</label><input type="text" inputmode="decimal" data-numeric="true" data-format="miles" data-path="gastos.provincias.${i}.descuentoImporteFijo" value="${p.descuentoImporteFijo}" data-rerender="true">${avisoImporteNegativo(p.descuentoImporteFijo,'El importe')}</div>
+          ` : ''}
+          ${(p.descuentoTipo==='porcentaje'||p.descuentoTipo==='fijo') ? `
+          <div class="field"><label>Motivo (opcional)</label><input type="text" placeholder="p.ej. ITP reducido primera vivienda" data-path="gastos.provincias.${i}.descuentoMotivo" value="${esc(p.descuentoMotivo)}"></div>
+          ` : ''}
+        </div>
+        ${(p.descuentoTipo==='porcentaje'||p.descuentoTipo==='fijo') ? `<div style="font-size:11px;color:var(--ink-faint);margin-top:-4px;margin-bottom:12px;">Hipoclaro no calcula si tienes derecho a ningún descuento — solo resta el importe que tú indiques. Verifica siempre tu caso concreto antes de contar con él.</div>` : ''}
+
+        <div class="hr"></div>
         <div class="grid3">
           <div class="stat">
             <div class="label">Gasto estimado total (fuera de hipoteca)</div>
             <div class="value small">${fmtMoney(total)}</div>
-            <div style="font-size:11px;color:var(--ink-faint);margin-top:2px;">${esSegundaMano===true?'ITP':(esSegundaMano===false?'IVA + AJD':'Impuesto')}: ${fmtMoney(baseImpuestos * porcentajeImpuestoCompra(p)/100)}${calcHonorariosInmobiliaria(p).total>0?` · Inmobiliaria: ${fmtMoney(calcHonorariosInmobiliaria(p).total)}`:''}${num(p.asesorFinanciero)>0?` · Asesor financiero: ${fmtMoney(p.asesorFinanciero)}`:''}</div>
+            <div style="font-size:11px;color:var(--ink-faint);margin-top:2px;">${esSegundaMano===true?'ITP':(esSegundaMano===false?'IVA + AJD':'Impuesto')}: ${fmtMoney(baseImpuestos * porcentajeImpuestoCompra(p)/100)}${calcHonorariosInmobiliaria(p).total>0?` · Inmobiliaria: ${fmtMoney(calcHonorariosInmobiliaria(p).total)}`:''}${num(p.asesorFinanciero)>0?` · Asesor financiero: ${fmtMoney(p.asesorFinanciero)}`:''}${calcDescuentoGastos(p, calcGastoCompraBruto(p))>0?` · Descuento: −${fmtMoney(calcDescuentoGastos(p, calcGastoCompraBruto(p)))}${p.descuentoMotivo?` (${esc(p.descuentoMotivo)})`:''}`:''}</div>
           </div>
           <div class="stat"><div class="label">Disponible para la compra</div><div class="value small">${fmtMoney(ahorroDisponible)}</div><div style="font-size:11px;color:var(--ink-faint);margin-top:2px;">Hoja 02${ahorroUsadoDeudas>0?` − ${fmtMoney(ahorroUsadoDeudas)} usados en el escenario de deudas seleccionado (Hoja 03)`:''}</div>${colchonExcedeAhorro()?`<div style="font-size:10.5px;color:var(--red);margin-top:4px;font-weight:600;">⚠ Colchón superior al ahorro; se usa 0 €.</div>`:''}</div>
           <div class="stat"><div class="label">${diferencia>0?'Falta financiar':'Sobra'}</div><div class="value small" style="color:${diferencia>0?'var(--red)':'var(--green)'};">${fmtMoney(Math.abs(diferencia))}</div></div>
