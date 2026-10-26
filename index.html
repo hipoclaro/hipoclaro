@@ -6,7 +6,7 @@
 <link rel="canonical" href="https://hipoclaro.github.io/">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#1C2E38">
+<meta name="theme-color" content="#E9E4D8">
 <title>Hipoclaro — Tu hipoteca. Tus números.</title>
 <meta name="google-site-verification" content="4JWcQwoX3zgdfYsuu9uXuzeDradECnvkBr-JXHQubCE" />
 <meta name="description" content="Organiza y compara escenarios de hipoteca, ahorro, deudas y gastos de compra con tus propios datos. Herramienta gratuita y orientativa.">
@@ -53,6 +53,8 @@
   --bg:#F5F3EE; --surface:#FFFFFF; --border:#DEDACB; --border-strong:#918C7D;
   --ink:#1F2A24; --ink-soft:#5B665F; --ink-faint:#666C5D;
   --navy:#2F4858; --navy-deep:#1C2E38;
+  /* Menú lateral claro (opción B) */
+  --side-bg:#E9E4D8; --side-ink:#1F2A24; --side-ink-soft:#3D4740; --side-muted:#545E57; --side-accent:#7A561C; --side-line:rgba(31,42,36,0.12); --side-active:#FFFFFF;
   --brass:#A8792A; --brass-soft:#F1E7D2; --brass-text:#8A6220;
   --green:#3F6B4A; --green-soft:#E5EEE6;
   --red:#A8433A; --red-soft:#F6E5E2;
@@ -66,26 +68,26 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body)
 ::selection{background:var(--brass-soft);}
 
 /* Sidebar */
-#sidebar{width:240px;flex-shrink:0;background:var(--navy-deep);color:#EDEAE0;padding:28px 0;position:sticky;top:0;height:100vh;overflow-y:auto;}
-.brand{padding:0 20px 22px 20px;border-bottom:1px solid rgba(255,255,255,0.12);margin-bottom:14px;}
-.brand-eyebrow{font-family:var(--font-mono);font-size:13px;letter-spacing:.14em;color:var(--brass-soft);text-transform:uppercase;opacity:.85;}
-.brand-title{font-family:var(--font-display);font-size:22px;font-weight:600;margin-top:4px;}
+#sidebar{width:240px;flex-shrink:0;background:var(--side-bg);color:var(--side-ink);border-right:1px solid var(--side-line);padding:28px 0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.brand{padding:0 20px 22px 20px;border-bottom:1px solid var(--side-line);margin-bottom:14px;}
+.brand-eyebrow{font-family:var(--font-mono);font-size:13px;letter-spacing:.14em;color:var(--side-accent);text-transform:uppercase;}
+.brand-title{font-family:var(--font-display);font-size:22px;font-weight:600;margin-top:4px;color:var(--navy-deep);}
 .navlist{list-style:none;margin:0;padding:0;}
-.navitem{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 20px;cursor:pointer;font-size:14.5px;color:#C9CFC5;border-left:3px solid transparent;}
+.navitem{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 20px;cursor:pointer;font-size:14.5px;color:var(--side-ink-soft);border-left:3px solid transparent;}
 button.navitem{width:100%;border-top:none;border-right:none;border-bottom:none;background:none;font-family:inherit;text-align:left;}
 button.navitem:focus-visible{outline:2px solid var(--brass); outline-offset:-2px;}
 .link-btn{background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;}
 .link-btn:focus-visible{outline:2px solid var(--brass);outline-offset:2px;}
 .navitem .nav-left{display:flex;align-items:baseline;gap:10px;min-width:0;}
-.navitem .num{font-family:var(--font-mono);font-size:13px;color:#9AA197;}
-.navitem:hover{background:rgba(255,255,255,0.05);color:#fff;}
-.navitem.active{background:rgba(255,255,255,0.08);color:#fff;border-left-color:var(--brass);}
-.navitem.active .num{color:var(--brass-soft);}
-.nav-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:transparent;border:1px solid rgba(255,255,255,0.28);}
+.navitem .num{font-family:var(--font-mono);font-size:13px;color:var(--side-muted);}
+.navitem:hover{background:rgba(31,42,36,0.05);color:var(--side-ink);}
+.navitem.active{background:var(--side-active);color:var(--navy-deep);font-weight:600;border-left-color:var(--brass);}
+.navitem.active .num{color:var(--side-accent);}
+.nav-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:transparent;border:1px solid rgba(31,42,36,0.35);}
 .nav-dot.filled{background:var(--brass);border-color:var(--brass);}
-.sidebar-foot{padding:16px 20px 0 20px;margin-top:14px;border-top:1px solid rgba(255,255,255,0.12);}
-.sidebar-foot button{width:100%;text-align:left;background:none;border:none;color:#B9C0B5;font-family:var(--font-body);font-size:13px;padding:6px 0;cursor:pointer;}
-.sidebar-foot button:hover{color:#fff;}
+.sidebar-foot{padding:16px 20px 0 20px;margin-top:14px;border-top:1px solid var(--side-line);}
+.sidebar-foot button{width:100%;text-align:left;background:none;border:none;color:var(--side-ink-soft);font-family:var(--font-body);font-size:13px;padding:6px 0;cursor:pointer;}
+.sidebar-foot button:hover{color:var(--side-ink);}
 
 /* Main */
 #main{flex:1;min-width:0;max-width:1288px;margin:0 auto;padding:36px 44px 80px 44px;}
@@ -701,7 +703,7 @@ tr.compare-best td{background:var(--green-soft);}
 
 @media (max-width:800px){
   #app{flex-direction:column;}
-  #sidebar{width:100%;height:auto;position:relative;padding:16px 0;}
+  #sidebar{width:100%;height:auto;position:relative;padding:16px 0;border-right:none;border-bottom:1px solid var(--side-line);}
   .navlist{display:flex;overflow-x:auto;gap:2px;padding:0 12px;}
   .navitem{border-left:none;border-bottom:3px solid transparent;white-space:nowrap;padding:8px 12px;}
   .navitem.active{border-left:none;border-bottom-color:var(--brass);}
@@ -709,8 +711,8 @@ tr.compare-best td{background:var(--green-soft);}
   .sidebar-foot.abierto{
     display:flex;flex-direction:column;gap:10px;
     position:fixed;left:12px;right:12px;bottom:58px;z-index:400;
-    background:var(--navy-deep);border-radius:12px;padding:16px;
-    box-shadow:0 6px 24px rgba(0,0,0,0.35);
+    background:var(--side-bg);border:1px solid var(--side-line);border-radius:12px;padding:16px;
+    box-shadow:0 6px 24px rgba(0,0,0,0.18);
     max-height:65vh;overflow-y:auto;padding-bottom:16px !important;
   }
   .sidebar-foot-header{display:flex !important;}
@@ -724,9 +726,9 @@ tr.compare-best td{background:var(--green-soft);}
   html{scroll-padding-bottom:88px;}
   .stat-row{grid-template-columns:1fr 1fr;}
   .navlist-bottom-wrap{
-    display:block;background:var(--navy-deep);padding:14px 0 18px 0;margin-top:8px;
+    display:block;background:var(--side-bg);border-top:1px solid var(--side-line);padding:14px 0 18px 0;margin-top:8px;
   }
-  .navlist-bottom-label{color:#9BA398;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;padding:0 16px 8px 16px;}
+  .navlist-bottom-label{color:var(--side-muted);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;padding:0 16px 8px 16px;}
   .navlist-bottom-wrap .navlist{display:flex;overflow-x:auto;gap:2px;padding:0 12px;}
   .navlist-bottom-wrap .navitem{border-left:none;border-bottom:3px solid transparent;white-space:nowrap;padding:8px 12px;}
   .navlist-bottom-wrap .navitem.active{border-left:none;border-bottom-color:var(--brass);}
@@ -2052,8 +2054,8 @@ function render(){
       <div class="brand">
         <div class="brand-eyebrow">Dosier privado</div>
         <div class="brand-title">${SITE_NAME}</div>
-        <div style="font-size:13px;color:#9BA398;margin-top:4px;">${SITE_TAGLINE}</div>
-        <a href="https://wa.me/?text=${encodeURIComponent(SITE_NAME+' — '+SITE_TAGLINE+(SITE_URL?' '+SITE_URL:''))}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:13px;color:#9BA398;text-decoration:underline;">
+        <div style="font-size:13px;color:var(--side-muted);margin-top:4px;">${SITE_TAGLINE}</div>
+        <a href="https://wa.me/?text=${encodeURIComponent(SITE_NAME+' — '+SITE_TAGLINE+(SITE_URL?' '+SITE_URL:''))}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:13px;color:var(--side-muted);text-decoration:underline;">
           <svg width="14" height="14" viewBox="0 0 32 32" style="flex-shrink:0;"><path fill="#25D366" d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.703 4.605 1.913 6.472L4 29l7.729-1.876A11.94 11.94 0 0016.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3z"/><path fill="#fff" d="M22.02 18.996c-.319-.16-1.888-.933-2.181-1.04-.293-.107-.507-.16-.72.16-.213.319-.827 1.04-1.014 1.253-.187.213-.373.24-.692.08-.319-.16-1.347-.497-2.566-1.586-.949-.847-1.589-1.892-1.775-2.212-.187-.319-.02-.492.14-.652.144-.144.32-.373.48-.56.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.72-1.735-.987-2.375-.26-.626-.524-.541-.72-.551l-.613-.011c-.213 0-.56.08-.853.4-.293.319-1.12 1.094-1.12 2.669 0 1.574 1.147 3.096 1.307 3.309.16.213 2.257 3.445 5.468 4.83.764.33 1.36.527 1.826.674.767.244 1.465.21 2.017.127.615-.092 1.888-.772 2.155-1.518.267-.746.267-1.386.187-1.518-.08-.133-.293-.213-.613-.373z"/></svg>
           Compartir por WhatsApp
         </a>
@@ -2063,13 +2065,13 @@ function render(){
       </ul>
       <div class="sidebar-foot ${sidebarMasAbierto?'abierto':''}" style="padding-bottom:56px;">
         <div class="sidebar-foot-header" style="display:none;justify-content:space-between;align-items:center;">
-          <span style="font-size:13px;color:#9BA398;font-weight:600;text-transform:uppercase;letter-spacing:.03em;">Más opciones</span>
-          <button onclick="toggleSidebarMas()" aria-label="Cerrar" style="background:none;border:none;color:#C9CFC5;font-size:16px;cursor:pointer;line-height:1;padding:2px 6px;">✕</button>
+          <span style="font-size:13px;color:var(--side-muted);font-weight:600;text-transform:uppercase;letter-spacing:.03em;">Más opciones</span>
+          <button onclick="toggleSidebarMas()" aria-label="Cerrar" style="background:none;border:none;color:var(--side-ink-soft);font-size:16px;cursor:pointer;line-height:1;padding:2px 6px;">✕</button>
         </div>
         <button onclick="exportData()">↓ Descargar copia</button>
         <button onclick="document.getElementById('importFile').click()">↑ Importar copia</button>
         <button onclick="resetAll()">Restablecer todo</button>
-        <div style="font-size:13px;color:#A3A99F;padding:8px 0 2px 0;">Alt + ↑ / ↓ para navegar entre hojas</div>
+        <div style="font-size:13px;color:var(--side-muted);padding:8px 0 2px 0;">Alt + ↑ / ↓ para navegar entre hojas</div>
         <div style="padding-top:8px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;">
           <button onclick="abrirComoFunciona()" style="font-size:13px;text-decoration:underline;">¿Cómo funciona todo esto?</button>
           <button onclick="abrirAvisoLegal()" style="font-size:13px;text-decoration:underline;">Aviso legal</button>
