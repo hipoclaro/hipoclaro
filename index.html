@@ -40,14 +40,20 @@
   "inLanguage": "es"
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* Fuentes alojadas en el propio sitio (sin peticiones a Google). Licencias en /fonts/. */
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/fraunces-latin.woff2') format('woff2-variations'),url('/fonts/fraunces-latin.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-latin.woff2') format('woff2-variations'),url('/fonts/inter-latin.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-latin-400.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-latin-500.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-latin-600.woff2') format('woff2');}
 :root{
   --bg:#F5F3EE; --surface:#FFFFFF; --border:#DEDACB; --border-strong:#918C7D;
-  --ink:#1F2A24; --ink-soft:#5B665F; --ink-faint:#727868;
+  --ink:#1F2A24; --ink-soft:#5B665F; --ink-faint:#666C5D;
   --navy:#2F4858; --navy-deep:#1C2E38;
-  --brass:#A8792A; --brass-soft:#F1E7D2; --brass-text:#976D26;
+  --brass:#A8792A; --brass-soft:#F1E7D2; --brass-text:#8A6220;
   --green:#3F6B4A; --green-soft:#E5EEE6;
   --red:#A8433A; --red-soft:#F6E5E2;
   --yellow:#866913; --yellow-soft:#F7EFD8;
@@ -86,6 +92,7 @@ button.navitem:focus-visible{outline:2px solid var(--brass); outline-offset:-2px
 .sheet-header{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border-strong);padding-bottom:10px;margin-bottom:18px;flex-wrap:wrap;}
 .sheet-num{font-family:var(--font-mono);font-size:12px;color:var(--brass-text);letter-spacing:.08em;}
 .sheet-title{font-family:var(--font-display);font-size:30px;font-weight:600;}
+h1.sheet-title{margin:0;line-height:1.2;}
 .sheet-sub{font-family:var(--font-body);font-size:14px;color:var(--ink-soft);margin-top:-12px;margin-bottom:16px;}
 .ayuda-trigger{
   display:inline-flex;align-items:center;gap:5px;margin-left:14px;
@@ -271,7 +278,12 @@ tr:last-child td{border-bottom:none;}
 .gauge-wrap{margin-top:6px;}
 .gauge-track{height:8px;border-radius:4px;background:#EEEBE1;overflow:hidden;}
 .gauge-fill{height:100%;border-radius:4px;}
-.gauge-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-faint);margin-top:4px;}
+.gauge-labels{position:relative;height:16px;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-faint);margin-top:4px;}
+.gauge-labels span{position:absolute;top:0;white-space:nowrap;}
+.gauge-labels .gauge-mark-label{transform:translateX(-50%);}
+/* Marca del 35 % sobre la barra (umbral "Elevado"), en su posición real */
+.gauge-wrap{position:relative;}
+.gauge-wrap::before{content:"";position:absolute;left:35%;top:-2px;width:2px;height:12px;background:var(--ink-soft);border-radius:1px;z-index:1;}
 
 /* Hoja 00 — dos lecturas del endeudamiento dentro del mismo cuadro */
 .endeudamiento-dual{
@@ -754,7 +766,7 @@ tr.compare-best td{background:var(--green-soft);}
   </div>
   <div id="staticAvisoLegal">
     <h2 style="font-family:var(--font-display);margin-top:0;">Aviso legal</h2>
-    <p style="color:var(--ink-faint);font-size:12px;">Última actualización: 26/08/2026</p>
+    <p style="color:var(--ink-faint);font-size:12px;">Última actualización: 26/10/2026</p>
     <p><strong>1. Titular y contacto</strong><br>
     Hipoclaro es un proyecto personal y gratuito mantenido por <strong>F.D.P.</strong> Contacto: <a href="mailto:hipoclaro.contacto@proton.me">hipoclaro.contacto@proton.me</a>.</p>
     <p><strong>2. Finalidad de la herramienta</strong><br>
@@ -768,11 +780,11 @@ tr.compare-best td{background:var(--green-soft);}
     <p><strong>6. Propiedad y uso</strong><br>
     Salvo los nombres, marcas o contenidos de terceros que puedan mencionarse, la estructura y contenidos propios de Hipoclaro se ofrecen para el uso normal de la herramienta. Las marcas de bancos, inmobiliarias, proveedores o servicios mencionados pertenecen a sus respectivos titulares.</p>
     <p><strong>7. Privacidad y cookies</strong><br>
-    El tratamiento técnico de datos y el uso de almacenamiento local, GitHub Pages y Google Fonts se describen en la <button type="button" class="link-btn" onclick="abrirPoliticaPrivacidad();">Política de Privacidad</button> y en la <button type="button" class="link-btn" onclick="abrirPoliticaCookies();">Política de Cookies</button>.</p>
+    El tratamiento técnico de datos y el uso de almacenamiento local y de GitHub Pages se describen en la <button type="button" class="link-btn" onclick="abrirPoliticaPrivacidad();">Política de Privacidad</button> y en la <button type="button" class="link-btn" onclick="abrirPoliticaCookies();">Política de Cookies</button>.</p>
   </div>
   <div id="staticPoliticaCookies">
     <h2 style="font-family:var(--font-display);margin-top:0;">Política de Cookies y almacenamiento local</h2>
-    <p style="color:var(--ink-faint);font-size:12px;">Última actualización: 26/08/2026</p>
+    <p style="color:var(--ink-faint);font-size:12px;">Última actualización: 26/10/2026</p>
     <p><strong>Hipoclaro no usa cookies ni ningún servicio de analítica o seguimiento.</strong> Solo utiliza almacenamiento local del navegador (localStorage e IndexedDB) para que la herramienta funcione y recuerde tus datos entre visitas. No son cookies en sentido estricto, pero se explican aquí porque guardan información en tu navegador.</p>
     <table style="width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;">
       <thead><tr style="text-align:left;border-bottom:2px solid var(--border-strong);"><th style="padding:6px 8px;">Tecnología</th><th style="padding:6px 8px;">Finalidad</th><th style="padding:6px 8px;">Dónde</th><th style="padding:6px 8px;">Duración</th></tr></thead>
@@ -782,11 +794,11 @@ tr.compare-best td{background:var(--green-soft);}
       </tbody>
     </table>
     <p><strong>Servicios técnicos</strong><br>
-    GitHub Pages aloja la web y Google Fonts sirve las tipografías. Estos servicios pueden recibir datos técnicos de red necesarios para atender la solicitud del navegador; se explican con más detalle en la <button type="button" class="link-btn" onclick="abrirPoliticaPrivacidad();">Política de Privacidad</button>.</p>
+    GitHub Pages aloja la web, incluidas las tipografías, que se sirven desde el propio sitio. Este servicio puede recibir datos técnicos de red necesarios para atender la solicitud del navegador; se explican con más detalle en la <button type="button" class="link-btn" onclick="abrirPoliticaPrivacidad();">Política de Privacidad</button>.</p>
   </div>
   <div id="staticPoliticaPrivacidad">
     <h2 style="font-family:var(--font-display);margin-top:0;">Política de Privacidad</h2>
-    <p style="color:var(--ink-faint);font-size:12px;">Última actualización: 26/08/2026</p>
+    <p style="color:var(--ink-faint);font-size:12px;">Última actualización: 26/10/2026</p>
     <p><strong>1. Responsable y contacto</strong><br>
     Responsable del proyecto: <strong>F.D.P.</strong> · Contacto: <a href="mailto:hipoclaro.contacto@proton.me">hipoclaro.contacto@proton.me</a>.</p>
     <p><strong>2. Datos que introduces en Hipoclaro</strong><br>
@@ -795,19 +807,19 @@ tr.compare-best td{background:var(--green-soft);}
     <p><strong>3. Datos técnicos generados al visitar la web</strong><br>
     Aunque los datos que escribes en la calculadora se mantengan localmente, visitar una web implica comunicaciones técnicas con los proveedores que sirven sus recursos:<br>
     — <strong>GitHub Pages</strong> aloja Hipoclaro. GitHub indica que registra y almacena la dirección IP de quienes visitan sitios de GitHub Pages con fines de seguridad.<br>
-    — <strong>Google Fonts</strong> sirve las tipografías utilizadas por la interfaz. Al solicitar esos recursos, el navegador establece conexiones técnicas con la infraestructura de Google, que puede recibir información necesaria para entregar el recurso, como la dirección IP y datos de la solicitud.<br>
+    — Las <strong>tipografías</strong> se sirven desde el propio sitio, sin conexiones a servicios de terceros como Google Fonts.<br>
     — Hipoclaro <strong>no usa ningún servicio de analítica ni de estadísticas de uso</strong>. No se registra qué páginas visitas, desde dónde llegas ni qué navegador usas.</p>
     <p><strong>4. Finalidades</strong><br>
     — El almacenamiento local se utiliza para prestar las funciones que solicitas y mantener tus escenarios disponibles en tu navegador.<br>
-    — GitHub Pages y Google Fonts se utilizan para mantener disponible, segura y visualmente consistente la web gratuita.</p>
+    — GitHub Pages se utiliza para mantener disponible y segura la web gratuita.</p>
     <p><strong>5. Conservación</strong><br>
-    Los datos guardados en localStorage e IndexedDB permanecen hasta que los eliminas, restableces Hipoclaro o el navegador los borra. Para los datos técnicos tratados por GitHub y Google se aplican los periodos y políticas de cada proveedor.</p>
+    Los datos guardados en localStorage e IndexedDB permanecen hasta que los eliminas, restableces Hipoclaro o el navegador los borra. Para los datos técnicos tratados por GitHub se aplican los periodos y políticas de cada proveedor.</p>
     <p><strong>6. Proveedores y localización</strong><br>
-    Hipoclaro utiliza servicios técnicos de terceros. GitHub y Google son proveedores globales y sus tratamientos pueden implicar infraestructuras o transferencias internacionales conforme a sus propias políticas y mecanismos legales. Por ello Hipoclaro no afirma que “todo permanece dentro de la Unión Europea”.</p>
+    Hipoclaro utiliza un servicio técnico de terceros. GitHub es un proveedor global y sus tratamientos pueden implicar infraestructuras o transferencias internacionales conforme a sus propias políticas y mecanismos legales. Por ello Hipoclaro no afirma que “todo permanece dentro de la Unión Europea”.</p>
     <p><strong>7. Derechos y control de tus datos</strong><br>
     Sobre los datos guardados únicamente en tu navegador tienes control directo: puedes modificarlos, exportarlos o eliminarlos desde la propia herramienta o borrando los datos del sitio en el navegador. Para cualquier cuestión relacionada con Hipoclaro puedes escribir a <a href="mailto:hipoclaro.contacto@proton.me">hipoclaro.contacto@proton.me</a>. Cuando corresponda, también puedes ejercer tus derechos ante el proveedor que trate los datos técnicos y presentar una reclamación ante la Agencia Española de Protección de Datos.</p>
     <p><strong>8. Servicios de terceros</strong><br>
-    Los servicios externos se rigen además por sus propias políticas de privacidad. Hipoclaro no controla cómo evolucionan dichas políticas, por lo que conviene revisarlas directamente en GitHub y Google.</p>
+    Los servicios externos se rigen además por sus propias políticas de privacidad. Hipoclaro no controla cómo evolucionan dichas políticas, por lo que conviene revisarlas directamente en GitHub.</p>
     <p><strong>9. Cambios</strong><br>
     Si cambia la arquitectura de Hipoclaro, se incorporan nuevos proveedores o el proyecto deja de ser gratuito, esta información deberá revisarse y actualizarse.</p>
   </div>
@@ -1547,7 +1559,11 @@ function mesesAAnios(meses){
 }
 function fmtMoney(n){
   n = toNumber(n); if(isNaN(n)) return '—';
-  return n.toLocaleString('es-ES',{maximumFractionDigits:0}) + ' €';
+  // Separador de miles siempre (también en cifras de 4 dígitos: 1.347 €).
+  // toLocaleString('es-ES') no agrupa los números de 4 cifras, por eso se formatea a mano.
+  const r = Math.round(Math.abs(n));
+  const s = String(r).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return (n < 0 && r !== 0 ? '-' : '') + s + ' €';
 }
 function fmtPct(n,d=1){ n=toNumber(n); if(isNaN(n)) return '—'; return n.toFixed(d)+' %'; }
 function toNumber(v){
@@ -2041,9 +2057,9 @@ function render(){
         <button onclick="exportData()">↓ Descargar copia</button>
         <button onclick="document.getElementById('importFile').click()">↑ Importar copia</button>
         <button onclick="resetAll()">Restablecer todo</button>
-        <div style="font-size:11px;color:#7C8479;padding:8px 0 2px 0;">Alt + ↑ / ↓ para navegar entre hojas</div>
+        <div style="font-size:11px;color:#A3A99F;padding:8px 0 2px 0;">Alt + ↑ / ↓ para navegar entre hojas</div>
         <div style="padding-top:8px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;">
-          <button onclick="abrirComoFunciona()" style="font-size:11px;text-decoration:underline;">🧭 ¿Cómo funciona todo esto?</button>
+          <button onclick="abrirComoFunciona()" style="font-size:11px;text-decoration:underline;">¿Cómo funciona todo esto?</button>
           <button onclick="abrirAvisoLegal()" style="font-size:11px;text-decoration:underline;">Aviso legal</button>
           <button onclick="abrirPoliticaPrivacidad()" style="font-size:11px;text-decoration:underline;">Política de privacidad</button>
           <button onclick="abrirPoliticaCookies()" style="font-size:11px;text-decoration:underline;">Política de cookies</button>
@@ -2153,11 +2169,11 @@ function renderExpress(){
   const disponibleLibre = num(ex.ingresos) - totalCuotas - num(ex.gastosFijos);
 
   return `
-    <div class="sheet-header"><span class="sheet-num">★</span>${tabIcon('express')}<span class="sheet-title">Simulación express</span></div>
-    <p class="sheet-sub">Solo lo importante — el resto (TIN, gastos de compra) usamos una media nacional, que ves explicada abajo. Cuando te convenza, "Aplicar" traslada SOLO lo que tú rellenaste a Hipoteca, Gastos de compra y Préstamo personal — las medias asumidas no se copian, las rellenas allí de verdad si quieres afinar. <button type="button" class="link-btn" onclick="abrirComoFunciona();" style="color:var(--brass-text);">🧭 Si quieres entender cómo funciona todo esto antes de meterte, aquí tienes la explicación completa.</button></p>
+    <div class="sheet-header"><span class="sheet-num">★</span>${tabIcon('express')}<h1 class="sheet-title">Simulación express</h1></div>
+    <p class="sheet-sub">Rellena solo lo esencial y verás al momento tu cuota y tu endeudamiento. El tipo de interés y los gastos de compra usan medias nacionales, explicadas abajo. Al pulsar «Aplicar», solo lo que tú escribas pasa a las Hojas 05, 06 y 07, donde puedes afinarlo con tus datos reales. <button type="button" class="link-btn" onclick="abrirComoFunciona();" style="color:var(--brass-text);">Cómo funciona Hipoclaro, paso a paso</button></p>
 
     <div class="card">
-      <h3 class="card-title">Tus números base</h3>
+      <h2 class="card-title">Tus números base</h2>
       <div class="grid4">
         <div class="field">
           <label>Ingresos netos / mes (€)</label>
@@ -2183,7 +2199,7 @@ function renderExpress(){
     </div>
 
     <div class="card">
-      <h3 class="card-title">Hipoteca y gastos de compra</h3>
+      <h2 class="card-title">Hipoteca y gastos de compra</h2>
       <div class="grid4">
         <div class="field"><label>Precio de la vivienda (€)</label><input type="text" inputmode="decimal" data-numeric="true" data-format="miles" data-path="express.precio" value="${ex.precio}" placeholder="p.ej. 250.000" data-rerender="true"></div>
         <div class="field"><label>Tipo de vivienda</label>
@@ -2204,7 +2220,7 @@ function renderExpress(){
     </div>
 
     <div class="card">
-      <h3 class="card-title">Préstamo personal <small>solo si hace falta</small></h3>
+      <h2 class="card-title">Préstamo personal <small>solo si hace falta</small></h2>
       <div class="grid4">
         <div class="field">
           <label>Plazo (meses)</label>
@@ -2227,7 +2243,7 @@ function renderExpress(){
     </div>
 
     <div class="card">
-      <h3 class="card-title">Resultado</h3>
+      <h2 class="card-title">Resultado</h2>
       <div class="grid4">
         <div class="stat"><div class="label">Cuotas totales / mes</div><div class="value small">${fmtMoney(totalCuotas)}</div></div>
         <div class="stat"><div class="label">Cuota hipoteca</div><div class="value small">${fmtMoney(cuotaHip)}</div></div>
@@ -2238,7 +2254,7 @@ function renderExpress(){
       <div class="card-title" style="font-size:15px;margin-bottom:8px;">Endeudamiento total <small style="font-weight:400;">cuotas / ingresos — orientativo, no un límite oficial</small></div>
       <div class="gauge-wrap">
         <div class="gauge-track"><div class="gauge-fill" style="width:${Math.min(ratio,100)}%;background:${gaugeColor};"></div></div>
-        <div class="gauge-labels"><span>0%</span><span>33%</span><span>35%</span><span>100%</span></div>
+        <div class="gauge-labels"><span style="left:0;">0%</span><span class="gauge-mark-label" style="left:35%;">35%</span><span style="right:0;">100%</span></div>
       </div>
       <div style="margin-top:10px;"><span class="badge ${badgeClass}">${fmtPct(ratio)} — ${badgeText}</span></div>
       <div class="hr"></div>
@@ -2434,7 +2450,7 @@ function renderResumen(){
   }
 
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 00</span>${tabIcon('resumen')}<span class="sheet-title">Resumen</span></div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 00</span>${tabIcon('resumen')}<h1 class="sheet-title">Resumen</h1></div>
     <p class="sheet-sub">Panel general calculado a partir de los datos que rellenes en el resto de secciones.</p>
 
     <div class="highlight-row">
@@ -2555,7 +2571,7 @@ function renderResumen(){
 
     ${hipSel && num(hipSel.importe)>0 ? `
     <div class="card">
-      <h3 class="card-title">Cobertura de la operación <small>¿tienes reunido el dinero para ejecutar la compra? — distinto de si puedes sostener las cuotas cada mes, eso va abajo en Endeudamiento</small></h3>
+      <h2 class="card-title">Cobertura de la operación <small>¿tienes reunido el dinero para ejecutar la compra? — distinto de si puedes sostener las cuotas cada mes, eso va abajo en Endeudamiento</small></h2>
       <div class="grid2" style="gap:28px;">
         <div>
           <div style="font-size:11px;color:var(--ink-faint);font-weight:700;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px;">Necesitas</div>
@@ -2582,7 +2598,7 @@ function renderResumen(){
     ` : ''}
 
     <div class="card">
-      <h3 class="card-title">Endeudamiento <small>cuotas de deuda / ingresos netos — orientativo, no un límite oficial de ningún banco</small></h3>
+      <h2 class="card-title">Endeudamiento <small>cuotas de deuda / ingresos netos — orientativo, no un límite oficial de ningún banco</small></h2>
 
       <div class="endeudamiento-dual">
         <div class="endeudamiento-pane">
@@ -2590,7 +2606,7 @@ function renderResumen(){
           <div class="endeudamiento-explain">Deudas actuales + cuota hipotecaria. Es la lectura útil para analizar la operación hipotecaria antes de añadir el préstamo personal previsto.</div>
           <div class="gauge-wrap">
             <div class="gauge-track"><div class="gauge-fill" style="width:${isNaN(ratioSoloHipoteca)?0:Math.min(ratioSoloHipoteca,100)}%;background:${vSoloHip.gaugeColor};"></div></div>
-            <div class="gauge-labels"><span>0%</span><span>33%</span><span>35%</span><span>100%</span></div>
+            <div class="gauge-labels"><span style="left:0;">0%</span><span class="gauge-mark-label" style="left:35%;">35%</span><span style="right:0;">100%</span></div>
           </div>
           <div style="margin-top:12px;">
             <span class="badge ${vSoloHip.badgeClass}">${isNaN(ratioSoloHipoteca)?vSoloHip.badgeText:`${fmtPct(ratioSoloHipoteca)} — ${vSoloHip.badgeText}`}</span>
@@ -2605,7 +2621,7 @@ function renderResumen(){
           <div class="endeudamiento-explain">Deudas actuales + cuota hipotecaria + préstamo personal. Refleja tu carga total de deuda si finalmente contratas también ese préstamo.</div>
           <div class="gauge-wrap">
             <div class="gauge-track"><div class="gauge-fill" style="width:${isNaN(ratioHipotecaYPersonal)?0:Math.min(ratioHipotecaYPersonal,100)}%;background:${vHipYPersonal.gaugeColor};"></div></div>
-            <div class="gauge-labels"><span>0%</span><span>33%</span><span>35%</span><span>100%</span></div>
+            <div class="gauge-labels"><span style="left:0;">0%</span><span class="gauge-mark-label" style="left:35%;">35%</span><span style="right:0;">100%</span></div>
           </div>
           <div style="margin-top:12px;">
             <span class="badge ${vHipYPersonal.badgeClass}">${isNaN(ratioHipotecaYPersonal)?vHipYPersonal.badgeText:`${fmtPct(ratioHipotecaYPersonal)} — ${vHipYPersonal.badgeText}`}</span>
@@ -2629,7 +2645,7 @@ function renderResumen(){
 
     <div class="grid2">
       <div class="card">
-        <h3 class="card-title">Vivienda del escenario ${viviendaSelResumen&&viviendaSelResumen.nombre?`<small>"${esc(viviendaSelResumen.nombre)}"</small>`:''}</h3>
+        <h2 class="card-title">Vivienda del escenario ${viviendaSelResumen&&viviendaSelResumen.nombre?`<small>"${esc(viviendaSelResumen.nombre)}"</small>`:''}</h2>
         <table><tbody>
           <tr><td>Provincia</td><td class="num">${(viviendaSelResumen&&viviendaSelResumen.ubicaciones)||'—'}</td></tr>
           <tr><td>Rango de precio</td><td class="num">${fmtMoney(viviendaSelResumen&&viviendaSelResumen.precioMin)} – ${fmtMoney(viviendaSelResumen&&viviendaSelResumen.precioMax)}</td></tr>
@@ -2638,20 +2654,20 @@ function renderResumen(){
         </tbody></table>
       </div>
       <div class="card">
-        <h3 class="card-title">Estado de brokers</h3>
+        <h2 class="card-title">Estado de brokers</h2>
         ${state.brokers.length===0 ? '<div class="empty">Todavía no has añadido ningún broker.</div>' :
           `<table><tbody>${Object.entries(estadosBrokers).map(([k,v])=>`<tr><td>${k}</td><td class="num">${v}</td></tr>`).join('')}</tbody></table>`}
       </div>
     </div>
 
     <div class="card">
-      <h3 class="card-title">Mi perfil <small>para darle a un asesor/broker nuevo — lo que suele pedir en el primer contacto</small></h3>
+      <h2 class="card-title">Mi perfil <small>para darle a un asesor/broker nuevo — lo que suele pedir en el primer contacto</small></h2>
       <textarea id="textoPerfil" readonly style="min-height:200px;font-family:var(--font-mono);font-size:12.5px;background:#FBFAF7;">${esc(generarTextoPerfil())}</textarea>
       <div style="margin-top:10px;"><button class="btn secondary" onclick="copiarTexto('textoPerfil','confPerfil')">Copiar</button> <span id="confPerfil" style="font-size:12px;color:var(--green);margin-left:8px;"></span></div>
     </div>
 
     <div class="card">
-      <h3 class="card-title">Mi plan <small>los escenarios que tienes elegidos ahora mismo — para guardarlo o compartirlo</small></h3>
+      <h2 class="card-title">Mi plan <small>los escenarios que tienes elegidos ahora mismo — para guardarlo o compartirlo</small></h2>
       <textarea id="textoPlan" readonly style="min-height:200px;font-family:var(--font-mono);font-size:12.5px;background:#FBFAF7;">${esc(generarTextoPlan())}</textarea>
       <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
         <button class="btn secondary" onclick="copiarTexto('textoPlan','confPlan')">Copiar</button>
@@ -3133,7 +3149,7 @@ async function copiarTexto(elementId, confirmId){
 function renderPersonaForm(key, persona, titularNombre){
   return `
     <div class="card">
-      <h3 class="card-title">${esc(titularNombre)}</h3>
+      <h2 class="card-title">${esc(titularNombre)}</h2>
       <div class="grid3 hoja01-perfil-fila" style="gap:10px;">
         <div class="field"><label>Nombre del titular</label><input type="text" data-path="titulares.${key==='p1'?'t1':'t2'}" value="${esc(state.titulares[key==='p1'?'t1':'t2'])}" data-rerender="true"></div>
         <div class="field"><label>Edad</label><input type="text" inputmode="numeric" data-numeric="true" data-path="perfil.${key}.edad" value="${persona.edad}"></div>
@@ -3178,7 +3194,7 @@ function renderPersonaForm(key, persona, titularNombre){
 }
 function renderPerfil(){
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 01</span>${tabIcon('perfil')}<span class="sheet-title">Perfil financiero</span>${renderAyudaTrigger('perfil')}</div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 01</span>${tabIcon('perfil')}<h1 class="sheet-title">Perfil financiero</h1>${renderAyudaTrigger('perfil')}</div>
     <p class="sheet-sub">Situación laboral e ingresos de cada titular. Es lo primero que pide cualquier bróker o banco.</p>
     ${renderAyudaPopup('perfil', '📎 Esta hoja es solo para datos y cifras — para adjuntar los documentos de verdad (nóminas, vida laboral, contrato, declaración de la renta…), ve a la <strong>Hoja 08 — Asesores/Brokers</strong>, sección "Tus documentos", y ponles como categoría el nombre del titular al que pertenecen. El checklist de cada bróker, en esa misma hoja, ya trae marcados estos mismos documentos para que sepas qué falta enviarle a cada uno.')}
     <p class="ayuda-resumen">📎 Los documentos de verdad van en la Hoja 08, no aquí.</p>
@@ -3200,7 +3216,7 @@ function renderAhorros(){
       <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;" onclick="toggleAhorroBlock('${key}')">
         <div style="display:flex;align-items:center;gap:10px;">
           <span class="chevron">${obj.expanded===false?'▸':'▾'}</span>
-          <h3 class="card-title" style="margin:0;">${titulo}</h3>
+          <h2 class="card-title" style="margin:0;">${titulo}</h2>
         </div>
         <span class="badge grey">${fmtMoney(num(obj.efectivo)+num(obj.inversiones))}</span>
       </div>
@@ -3211,7 +3227,7 @@ function renderAhorros(){
       </div>`}
     </div>`;
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 02</span>${tabIcon('ahorros')}<span class="sheet-title">Ahorros</span></div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 02</span>${tabIcon('ahorros')}<h1 class="sheet-title">Ahorros</h1></div>
     <p class="sheet-sub">El ahorro (y cuánto de él estáis dispuestos a usar) suele ser el verdadero cuello de botella de la operación, más que el salario.</p>
     <div class="card">
       <label style="font-weight:600;display:block;margin-bottom:10px;">¿Cómo quieres introducir los ahorros?</label>
@@ -3309,7 +3325,7 @@ function setGastoEscenarioSeleccionado(id){ state.personal.gastoEscenarioSelecci
 function renderDeudas(){
   const ahorroDisp = ahorroDisponibleCalc();
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 03</span>${tabIcon('deudas')}<span class="sheet-title">Deudas actuales</span>${renderAyudaTrigger('deudas')}</div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 03</span>${tabIcon('deudas')}<h1 class="sheet-title">Deudas actuales</h1>${renderAyudaTrigger('deudas')}</div>
     <p class="sheet-sub">Coche, tarjetas, préstamos personales… cualquier financiación vigente, por pequeña que sea, cuenta para el banco. Crea varios escenarios si quieres comparar (p.ej. "Escenario 01" vs. "Coche cancelado con ahorro") — incluida una posible "Deuda 0" sin ninguna línea.</p>
     ${renderAyudaPopup('deudas', '<strong>Saldo, cuota y meses son datos distintos.</strong> La cuota mensual puede incluir intereses y otros costes, por lo que el saldo pendiente no tiene por qué coincidir con cuota × meses. Introduce los valores tal como aparecen en tu banco, contrato o cuadro de amortización. Hipoclaro avisa si detecta datos incompletos, una combinación que no cubriría ni siquiera el capital pendiente o una combinación que implique un interés aproximado especialmente alto. Ese interés implícito es solo una comprobación orientativa y no se usa en ningún cálculo.')}
     <p class="ayuda-resumen">Introduce saldo, cuota y meses tal como aparecen en tu banco.</p>
@@ -3378,7 +3394,7 @@ function renderComparativaDeudas(){
   const hayAhorroUsado = filas.some(f=>f.ahorroUsado>0);
   return `
     <div class="card">
-      <h3 class="card-title">Comparativa de escenarios <small>cuál te deja más capacidad de deuda al mes</small></h3>
+      <h2 class="card-title">Comparativa de escenarios <small>cuál te deja más capacidad de deuda al mes</small></h2>
       <table><thead><tr><th>Escenario</th><th class="num">Cuota mensual total</th><th class="num">Ahorro usado</th><th class="num">Ahorro disponible después</th><th class="num">Diferencia de cuota</th></tr></thead><tbody>
         ${filas.map(f=>`
           <tr class="${f.cuota===minCuota?'compare-best':''}">
@@ -3421,7 +3437,7 @@ function opcionesViviendasHipoteca(selectedId){
 }
 function renderVivienda(){
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 04</span>${tabIcon('vivienda')}<span class="sheet-title">Vivienda objetivo</span></div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 04</span>${tabIcon('vivienda')}<h1 class="sheet-title">Vivienda objetivo</h1></div>
     <p class="sheet-sub">Guarda aquí todas las viviendas que estés valorando. En la Hoja 05 cada escenario de hipoteca se vincula a una vivienda concreta. Si solo tienes una vivienda, una hipoteca nueva se vincula automáticamente a ella; si tienes varias, Hipoclaro te pide elegir.</p>
     ${state.viviendas.length>1 ? expandCollapseButtons('viviendas') : ''}
     ${state.viviendas.map((v,i)=>`
@@ -3517,7 +3533,7 @@ function labelEscenarioHipoteca(e){
 function labelEscenarioPersonal(e){ const c = personalCalc(e); return `${esc(e.nombre||'Escenario')} — ${fmtMoney(c.importeEfectivo)} — ${c.completa===false?'pendiente de completar':fmtMoney(c.cuota)+'/mes'}`; }
 function renderHipoteca(){
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 05</span>${tabIcon('hipoteca')}<span class="sheet-title">Hipoteca — simulador de escenarios</span></div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 05</span>${tabIcon('hipoteca')}<h1 class="sheet-title">Hipoteca — simulador de escenarios</h1></div>
     <p class="sheet-sub">Cada escenario de hipoteca se vincula a una vivienda concreta de la Hoja 04. Así puedes comparar Casa 1, Casa 2 y Casa 3 sin mezclar su provincia, estado o rango de precio. La cuota se calcula con el sistema de amortización francés (el habitual en España).</p>
     ${state.hipoteca.escenarios.length>1 ? expandCollapseButtons('hipoteca.escenarios') : ''}
     ${state.hipoteca.escenarios.length===0 ? '<div class="card"><div class="empty">Sin escenarios todavía.</div></div>' : state.hipoteca.escenarios.map((e,i)=>{
@@ -3692,7 +3708,7 @@ function renderComparativaHipoteca(){
   const minCoste = filasCompletas.length ? Math.min(...filasCompletas.map(f=>f.costeFinancieroEstimado)) : NaN;
   return `
     <div class="card">
-      <h3 class="card-title">Comparativa de escenarios <small>coste financiero estimado — intereses + productos vinculados, a lo largo del préstamo</small></h3>
+      <h2 class="card-title">Comparativa de escenarios <small>coste financiero estimado — intereses + productos vinculados, a lo largo del préstamo</small></h2>
       <table><thead><tr><th>Escenario</th><th class="num">Salida mensual inicial</th><th class="num">Intereses totales</th><th class="num">Vinculación</th><th class="num">Coste financiero estimado</th><th class="num">Diferencia vs. menor coste estimado</th></tr></thead><tbody>
         ${filas.map(f=>{
           const esMejor = f.completa && !isNaN(minCoste) && f.costeFinancieroEstimado===minCoste;
@@ -3834,7 +3850,7 @@ function renderPersonal(){
     const totalNecesario = faltaGastos + entrada;
     resumenHtml = `
     <div class="card">
-      <h3 class="card-title">Cuánto pedir <small>entrada pendiente (Hoja 05) + gastos de compra (Hoja 06) − ahorro realmente disponible (Hojas 02 y 03)</small></h3>
+      <h2 class="card-title">Cuánto pedir <small>entrada pendiente (Hoja 05) + gastos de compra (Hoja 06) − ahorro realmente disponible (Hojas 02 y 03)</small></h2>
       ${colchonExcedeAhorro()?`<div class="note-block" style="background:var(--red-soft);color:var(--red);margin-bottom:12px;">⚠ El colchón supera tus ahorros disponibles. Para este cálculo Hipoclaro usa <strong>0 €</strong> de ahorro disponible hasta que lo corrijas en la Hoja 02.</div>`:''}
       ${ahorroUsadoDeudas>0 ? `<div class="note-block" style="margin-bottom:12px;"><strong>Hoja 03 aplicada:</strong> el escenario "${esc(deudaEscSelPersonal&&deudaEscSelPersonal.nombre ? deudaEscSelPersonal.nombre : 'Deudas actuales')}" utiliza ${fmtMoney(ahorroUsadoDeudas)} de ahorro. Por eso, de los ${fmtMoney(ahorroDisponibleHoja02)} disponibles tras el colchón, aquí quedan ${fmtMoney(ahorroDisponible)} para la compra.</div>` : ''}
       <div class="grid2">
@@ -3867,7 +3883,7 @@ function renderPersonal(){
     </div>`;
   }
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 07</span>${tabIcon('personal')}<span class="sheet-title">Préstamo personal (opcional)</span></div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 07</span>${tabIcon('personal')}<h1 class="sheet-title">Préstamo personal (opcional)</h1></div>
     <p class="sheet-sub">Cada escenario de préstamo personal se vincula a un escenario de hipoteca de la Hoja 05. Hipoclaro parte de una lógica sencilla: primero usa el ahorro realmente disponible y el préstamo personal cubre lo que falte. Puedes pedir más si lo necesitas para otros fines; en ese caso la herramienta te avisa de qué parte excede lo necesario para precio + gastos.</p>
     ${resumenHtml}
     <div class="hr"></div>
@@ -3957,7 +3973,7 @@ function renderComparativaPersonal(){
   const minCoste = filasCompletas.length>0 ? Math.min(...filasCompletas.map(f=>f.costeTotal)) : NaN;
   return `
     <div class="card">
-      <h3 class="card-title">Comparativa de escenarios <small>TAE para comparar ofertas; coste calculado con los datos que Hipoclaro conoce</small></h3>
+      <h2 class="card-title">Comparativa de escenarios <small>TAE para comparar ofertas; coste calculado con los datos que Hipoclaro conoce</small></h2>
       <table><thead><tr><th>Escenario</th><th>Hipoteca vinculada</th><th class="num">Importe</th><th class="num">TIN</th><th class="num">TAE</th><th class="num">Cuota mensual</th><th class="num">Coste calculado</th><th class="num">Diferencia vs. el menor coste calculado</th></tr></thead><tbody>
         ${filas.map(f=>{
           const esMejor = f.completa && !isNaN(minCoste) && f.costeTotal===minCoste;
@@ -4074,7 +4090,7 @@ function renderGastos(){
   const ahorroDisponible = ahorroDisponibleParaCompraCalc();
   const ahorroUsadoDeudas = ahorroUsadoDeudasSeleccionadasCalc();
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 06</span>${tabIcon('gastos')}<span class="sheet-title">Gastos de compra</span>${renderAyudaTrigger('gastos')}</div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 06</span>${tabIcon('gastos')}<h1 class="sheet-title">Gastos de compra</h1>${renderAyudaTrigger('gastos')}</div>
     <p class="sheet-sub">Cada escenario de gastos se vincula a un escenario de hipoteca de la Hoja 05. A través de ese vínculo Hipoclaro sabe qué vivienda de la Hoja 04 corresponde y toma automáticamente su provincia y si es segunda mano o nueva construcción.</p>
     ${renderAyudaPopup('gastos', '⚠ <strong>Antes de firmar un contrato de arras:</strong> revisa qué tipo de arras se pactan y qué ocurre si no consigues la financiación. Si necesitas hipoteca, conviene que el contrato indique expresamente qué pasa con las cantidades entregadas si el banco deniega el préstamo y qué plazo tienes para obtener financiación. Las consecuencias dependen del tipo de arras y de la redacción concreta del contrato.')}
     <p class="ayuda-resumen">⚠ Revisa las condiciones de las arras antes de firmar nada.</p>
@@ -4258,7 +4274,7 @@ function renderComparativaGastos(){
   const minTotal = Math.min(...filas.map(f=>f.total));
   return `
     <div class="card">
-      <h3 class="card-title">Comparativa de escenarios <small>cómo cambian los gastos según el precio, impuestos y costes que hayas introducido</small></h3>
+      <h2 class="card-title">Comparativa de escenarios <small>cómo cambian los gastos según el precio, impuestos y costes que hayas introducido</small></h2>
       ${colchonExcedeAhorro()?`<div style="font-size:11px;color:var(--red);margin:-4px 0 10px 0;font-weight:600;">⚠ El colchón supera tus ahorros disponibles; esta comparativa usa 0 € de ahorro disponible.</div>`:''}
       <table><thead><tr><th>Escenario</th><th class="num">Precio / base impuestos</th><th class="num">Gasto de compra</th><th class="num">Falta / Sobra</th><th class="num">Diferencia vs. el menor gasto</th></tr></thead><tbody>
         ${filas.map(f=>`
@@ -4371,7 +4387,7 @@ function renderChecklistCol(bi, listName, items){
 
 function renderBrokers(){
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 08</span>${tabIcon('brokers')}<span class="sheet-title">Asesores financieros / Brokers</span></div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 08</span>${tabIcon('brokers')}<h1 class="sheet-title">Asesores financieros / Brokers</h1></div>
     <p class="sheet-sub">Izquierda: un recuadro por asesor/broker con su checklist de documentación ya predefinido. Derecha: los archivos reales, en un único sitio, para subirlos una vez y descargarlos cuando los necesites — sin repetirlos por cada uno.</p>
     <div class="brokers-layout">
       <div class="brokers-col">
@@ -4603,7 +4619,7 @@ function renderDocumentos(){
   const visibles = state.documentos.filter(d => docFiltro==='todas' ? true : (docFiltro==='sin' ? !d.categoria : d.categoria===docFiltro));
   return `
     <div class="card">
-      <h3 class="card-title">Tus documentos <small>los que TÚ envías a los brokers: DNI, nóminas, contratos…</small></h3>
+      <h2 class="card-title">Tus documentos <small>los que TÚ envías a los brokers: DNI, nóminas, contratos…</small></h2>
       <input type="file" id="docUploadInput" multiple style="display:none" onchange="handleDocFiles(this.files); this.value='';">
       <button class="btn" onclick="triggerDocUpload()">+ Subir documento(s)</button>
       <div style="font-size:11.5px;color:var(--ink-faint);margin-top:8px;">Límite práctico: unos 8 MB por archivo. Si algo pesa más, comprímelo o reescanéalo en menor calidad antes de subirlo.</div>
@@ -4670,7 +4686,7 @@ function renderGastosFijos(){
       <div></div>
     </div>`;
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 09</span>${tabIcon('gastosfijos')}<span class="sheet-title">Otros gastos fijos</span></div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 09</span>${tabIcon('gastosfijos')}<h1 class="sheet-title">Otros gastos fijos</h1></div>
     <p class="sheet-sub">Suministros, seguros, teléfono… lo que gastáis con regularidad, separado en dos columnas: lo que pagáis <strong>ahora, de alquiler</strong>, y lo que pagaréis <strong>una vez seáis propietarios</strong> — no son lo mismo. El alquiler (o el seguro de inquilino) normalmente desaparece al comprar; en cambio el IBI, la comunidad o el seguro de hogar solo empiezan a existir entonces. Ya puse algunos ejemplos habituales — bórralos si no aplican, o añade los tuyos.</p>
 
     <div class="stat-row stat-row-2">
@@ -4679,7 +4695,7 @@ function renderGastosFijos(){
     </div>
 
     <div class="card">
-      <h3 class="card-title">Mensual <small>el importe es directamente el gasto de ese mes</small></h3>
+      <h2 class="card-title">Mensual <small>el importe es directamente el gasto de ese mes</small></h2>
       ${cabecera('€')}
       ${state.gastosFijos.mensuales.length===0 ? '<div class="empty">Sin gastos mensuales registrados todavía.</div>' : state.gastosFijos.mensuales.map((g,i)=>filaGasto('mensuales',g,i,false)).join('')}
       <button class="btn secondary small" onclick="addGastoFijo('mensuales')" style="margin-top:6px;">+ Añadir gasto mensual</button>
@@ -4691,7 +4707,7 @@ function renderGastosFijos(){
     </div>
 
     <div class="card">
-      <h3 class="card-title">Anual <small>el importe es el gasto del año; se divide entre 12 automáticamente</small></h3>
+      <h2 class="card-title">Anual <small>el importe es el gasto del año; se divide entre 12 automáticamente</small></h2>
       ${cabecera('€/año')}
       ${state.gastosFijos.anuales.length===0 ? '<div class="empty">Sin gastos anuales registrados todavía.</div>' : state.gastosFijos.anuales.map((g,i)=>filaGasto('anuales',g,i,true)).join('')}
       <button class="btn secondary small" onclick="addGastoFijo('anuales')" style="margin-top:6px;">+ Añadir gasto anual</button>
@@ -5025,13 +5041,13 @@ function renderNotas(){
   const ordenadas=[...notas].sort((a,b)=>String(b.fechaCreacion||'').localeCompare(String(a.fechaCreacion||'')));
 
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 10</span>${tabIcon('notas')}<span class="sheet-title">Seguimiento y notas</span></div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 10</span>${tabIcon('notas')}<h1 class="sheet-title">Seguimiento y notas</h1></div>
     <p class="sheet-sub">Lleva un seguimiento general o uno independiente para cada escenario de hipoteca. Cada seguimiento nuevo empieza con 9 pasos iniciales orientativos, que después puedes renombrar, reordenar o eliminar libremente, y guardar notas relacionadas con cada uno.</p>
 
     <div class="card">
       <div class="seguimiento-top">
         <div>
-          <h3 class="card-title" style="margin:0 0 2px 0;">Seguimiento de la compra</h3>
+          <h2 class="card-title" style="margin:0 0 2px 0;">Seguimiento de la compra</h2>
           <div style="font-size:12px;color:var(--ink-faint);">Selecciona un escenario y navega por sus pasos.</div>
         </div>
         <div class="field seguimiento-selector" style="margin-bottom:0;">
@@ -5050,7 +5066,7 @@ function renderNotas(){
 
     ${paso?`
     <div class="card">
-      <h3 class="card-title">Paso seleccionado</h3>
+      <h2 class="card-title">Paso seleccionado</h2>
       <div class="paso-edit-grid">
         <div class="field">
           <label>Nombre del paso</label>
@@ -5092,7 +5108,7 @@ function renderNotas(){
     <div class="card">
       <div class="notas-scope-row">
         <div>
-          <h3 class="card-title" style="margin:0 0 2px 0;">Notas</h3>
+          <h2 class="card-title" style="margin:0 0 2px 0;">Notas</h2>
           <div style="font-size:12px;color:var(--ink-faint);">${vistaNotasSeguimiento==='paso'&&paso?`Notas asociadas a “${esc(paso.nombre||'Paso')}”.`:'Notas generales de este seguimiento.'}</div>
         </div>
         <div class="pill-select">
@@ -5768,7 +5784,7 @@ function renderComparador(){
   const escenarios=state.comparador.escenarios||[];
 
   return `
-    <div class="sheet-header"><span class="sheet-num">HOJA 11</span>${tabIcon('comparador')}<span class="sheet-title">Comparador de escenarios</span>${renderAyudaTrigger('comparador')}</div>
+    <div class="sheet-header"><span class="sheet-num">HOJA 11</span>${tabIcon('comparador')}<h1 class="sheet-title">Comparador de escenarios</h1>${renderAyudaTrigger('comparador')}</div>
     <p class="sheet-sub">Combina Deudas (03) + Hipoteca (05) + Gastos de compra (06) + Préstamo personal (07) en escenarios globales y compáralos sin duplicar datos.</p>
     ${renderAyudaPopup('comparador', '<strong>Un escenario global no copia números.</strong> Solo guarda qué escenarios de las Hojas 03, 05, 06 y 07 forman la combinación. Si cambias el precio, el TIN, los gastos o una cuota en su hoja de origen, esta tabla se actualiza automáticamente. Los criterios personalizados de abajo son solo para comparar: <strong>no entran en ningún cálculo financiero</strong>.')}
     <p class="ayuda-resumen">Un escenario global solo referencia otras hojas, no copia sus números.</p>
@@ -5776,7 +5792,7 @@ function renderComparador(){
     <div class="card">
       <div class="comparador-head">
         <div>
-          <h3 class="card-title" style="margin:0 0 2px 0;">Escenarios globales</h3>
+          <h2 class="card-title" style="margin:0 0 2px 0;">Escenarios globales</h2>
           <div style="font-size:12px;color:var(--ink-faint);">Cada escenario representa una operación completa. Al añadir uno nuevo, Hipoclaro parte de la combinación que tienes seleccionada actualmente cuando es posible.</div>
         </div>
         <button class="btn" onclick="addEscenarioGlobal()">+ Añadir escenario global</button>
@@ -5787,7 +5803,7 @@ function renderComparador(){
     ${escenarios.map(renderEscenarioGlobalCard).join('')}
 
     <div class="card">
-      <h3 class="card-title">Comparación</h3>
+      <h2 class="card-title">Comparación</h2>
       <div class="comparador-note" style="margin-bottom:12px;">
         <strong>Dinero propio inicial</strong> incluye la aportación necesaria para precio + gastos que no cubren hipoteca/préstamo personal y, si el escenario de Deudas 03 usa ahorro para cancelar deuda, también ese importe. <strong>Coste mensual total</strong> suma deudas actuales + hipoteca (incluidas vinculaciones) + préstamo personal + gastos previstos como propietario de Hoja 09. El endeudamiento, en cambio, usa solo cuotas de deuda.
       </div>
@@ -5795,7 +5811,7 @@ function renderComparador(){
     </div>
 
     <div class="card">
-      <h3 class="card-title">Criterios personalizados <small>solo para comparar; no afectan Hoja 00 ni los cálculos financieros</small></h3>
+      <h2 class="card-title">Criterios personalizados <small>solo para comparar; no afectan Hoja 00 ni los cálculos financieros</small></h2>
       <div class="comparador-note">Puedes usar aquí datos como Comunidad / mes, IBI / año, colegios, tranquilidad, estado de reforma o cualquier otro criterio personal. Los dos primeros aparecen de inicio como ejemplos y también se pueden renombrar o eliminar.</div>
 
       ${criterios.length===0?'<div class="empty">No tienes criterios personalizados.</div>':criterios.map((c,ci)=>`
@@ -5969,6 +5985,27 @@ function cerrarLegal(){ document.getElementById('legalOverlay').style.display = 
 
 /* ---------- Arranque ---------- */
 loadState();
+</script>
+<script>
+/* Accesibilidad: vincula cada <label> de un .field con su campo (for/id).
+   Las hojas se repintan con frecuencia, así que se aplica tras cada cambio del DOM. */
+(function(){
+  let n = 0, pendiente = false;
+  function vincular(){
+    pendiente = false;
+    document.querySelectorAll('.field > label:not([for])').forEach(function(label){
+      if(label.querySelector('input,select,textarea')) return; // ya envuelve su campo
+      const campo = label.parentElement.querySelector('input:not([type=hidden]),select,textarea');
+      if(!campo) return;
+      if(!campo.id) campo.id = 'campo-' + (++n);
+      label.htmlFor = campo.id;
+    });
+  }
+  vincular();
+  new MutationObserver(function(){
+    if(!pendiente){ pendiente = true; requestAnimationFrame(vincular); }
+  }).observe(document.body, {childList:true, subtree:true});
+})();
 </script>
 </body>
 </html>
